@@ -15,9 +15,13 @@
         type="password"
       ></v-text-field>
       <v-btn type="submit" block class="mt-2">Login</v-btn>
-    
     </v-form>
-  </v-sheet>
+  </v-sheet><br>
+
+<div style="text-align: center;">
+  <p style="display: inline; color: rgb(118,118,118);">Not signed up yet?</p>
+  <router-link to='/signup' style="text-decoration: none;"> SIGN UP NOW</router-link>
+</div>
 </div>
   
 </template>
@@ -77,5 +81,9 @@
   max-width: 40rem;
 }
 
+.v-btn.v-btn--density-default {
+    background-color: #3d008d;
+    color:white
+}
 
 </style>

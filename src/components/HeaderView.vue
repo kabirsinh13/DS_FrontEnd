@@ -4,8 +4,11 @@
       <nav>
         <h1><router-link to='/'>DestiShare</router-link></h1>
         <ul>
-          <li>
+          <li v-if="!isLogin">
             <router-link to="/login">Login</router-link>
+          </li>
+          <li v-else>
+            <base-button link @click="logout" >Logout</base-button>
           </li>
         </ul>
       </nav>
@@ -16,6 +19,21 @@
 
 <script>
 export default{
+  data(){
+    return {
+
+    }
+  },
+  computed:{
+    isLogin(){
+      return this.$store.getters.isAuthenticated
+    }
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch('deleteUser')
+    }
+  }
     
 }
 

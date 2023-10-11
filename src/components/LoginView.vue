@@ -54,7 +54,7 @@
     }),
     methods:{
         async formSubmit(){
-            console.log(this.email,this.password)
+        
             const response = await fetch('http://localhost:3000/user/login',{
                 method:'POST',
                 headers:{
@@ -67,6 +67,14 @@
             })
             const responseData = await response.json()
             console.log(responseData)
+            
+            this.$store.dispatch('setUser',{
+              id:responseData.user._id,
+              token:responseData.token
+            })
+
+        //  console.log(   this.$store.getters.getToken)
+
         }
     }
   }

@@ -9,6 +9,7 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
 import BaseCard from './ui/BaseCard.vue'
+import BaseButton from './ui/BaseButton.vue'
 
 const vuetify = createVuetify({
     components,
@@ -20,4 +21,5 @@ app.use(router)
 app.use(vuetify)
 app.use(store)
 app.component('base-card',BaseCard)
+app.component('base-button',BaseButton)
 app.mount('#app')

@@ -1,5 +1,8 @@
 export default{
-    setUser(state,payload){
-        state.commit('saveUser',payload)
+    setUser(context,payload){
+        context.commit('loginUser',payload)
+    },
+    deleteUser(context){
+        context.commit('logoutUser')
     }
 }

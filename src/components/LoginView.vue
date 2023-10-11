@@ -66,14 +66,12 @@
                 })
             })
             const responseData = await response.json()
-            console.log(responseData)
-            
             this.$store.dispatch('setUser',{
               id:responseData.user._id,
               token:responseData.token
             })
 
-        //  console.log(   this.$store.getters.getToken)
+            this.$router.replace('/')
 
         }
     }

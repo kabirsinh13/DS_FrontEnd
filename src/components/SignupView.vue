@@ -85,7 +85,7 @@
       },
       methods:{
         async formSubmit(){
-          const response = await fetch('http://localhost:3000/user/signup',{
+          await fetch('http://localhost:3000/user/signup',{
             method:'POST',
             headers:{
               'Content-Type':'application/json'
@@ -98,9 +98,9 @@
             })
           })
 
-          const responseData = await response.json()
+          // const responseData = await response.json()
 
-          console.log(responseData)
+          this.$router.replace('/login')
         }
       }
     }

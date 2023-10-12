@@ -2,13 +2,16 @@
 <template>
     <header>
       <nav>
-        <h1><router-link to='/'>DestiShare</router-link></h1>
+        <h1><router-link to='/'>?</router-link></h1>
         <ul>
           <li v-if="!isLogin">
             <router-link to="/login">Login</router-link>
           </li>
-          <li v-else>
-            <base-button link @click="logout" >Logout</base-button>
+          <li v-if="isLogin">
+            <base-button link to="/upload">CreatePost</base-button>
+          </li>
+          <li v-if="isLogin">
+            <base-button  @click="logout" >Logout</base-button>
           </li>
         </ul>
       </nav>

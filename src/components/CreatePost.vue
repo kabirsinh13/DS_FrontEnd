@@ -92,7 +92,10 @@ export default{
             body:formdata
          })
          this.loading = false;
-         this.$router.go()
+         this.title="",
+         this.description="",
+         this.image=[]
+        //  this.$router.go()  it will refresh the current route 
         }
     },
     watch:{

@@ -11,9 +11,18 @@ import HeaderView   from './components/HeaderView.vue'
 
 export default {
   name: 'App',
+  data(){
+    return {
+      authenticated:this.$store.getters.isAuthenticated
+    }
+  },
   components:{
     'app-header':HeaderView
-  }
+  },
+   created(){
+    console.log("auth " + this.authenticated)
+   }
+  
 }
 </script>
 

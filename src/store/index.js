@@ -10,6 +10,9 @@ const store = createStore({
     getters:{
         getToken(state){
             return state.auth.token;
+        },
+        getUserId(state){
+            return state.auth.userId;
         }
     }
     

@@ -5,6 +5,10 @@ import {store}  from './store/index.js'
 
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
+import '@mdi/font/css/materialdesignicons.css'
+import '@fortawesome/fontawesome-free/css/all.css' // Ensure your project is 
+import { fa } from "vuetify/iconsets/fa";
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
@@ -13,7 +17,15 @@ import BaseButton from './ui/BaseButton.vue'
 
 const vuetify = createVuetify({
     components,
-    directives
+    directives,
+    icons: {
+        defaultSet: 'mdi', // This is already the default value - only for display purposes
+        aliases,
+        sets: {
+           mdi,
+           fa
+        },
+      }
 })
 
 const app = createApp(App)

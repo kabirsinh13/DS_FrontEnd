@@ -6,10 +6,10 @@
       <v-img
         class="align-end text-white"
         height="200"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        :src="imageSource"
         cover
       >
-        <v-card-title>Top 10 Australian beaches</v-card-title>
+        <v-card-title>{{ title }}</v-card-title>
       </v-img>
   
       <v-card-subtitle class="pt-4">
@@ -17,9 +17,9 @@
       </v-card-subtitle>
   
       <v-card-text>
-        <div>Whitehaven Beach</div>
+        <!-- <div>title:{{ title }}</div> -->
   
-        <div>Whitsunday Island, Whitsunday Islands</div>
+        <div>{{ description }}</div>
       </v-card-text>
   
       <v-card-actions>
@@ -37,7 +37,16 @@
 <script>
 
 export default{
-    
+  props:['title','description','image'],
+  computed:{
+    imageSource(){
+      console.log(this.image[0])
+      const imageData = this.image[0].buffer.toString('base64')
+      return `data:image/jpeg;base64,${imageData}`
+      // return ""
+    }
+  }
+
 }
 
 

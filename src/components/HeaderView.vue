@@ -11,7 +11,10 @@
             <base-button link to="/upload">CreatePost</base-button>
           </li>
           <li v-if="isLogin">
-            <base-button  @click="logout" >Logout</base-button>
+             <base-button link to="/mypost">MyPost</base-button>
+          </li>
+          <li v-if="isLogin">
+            <base-button  @click="logout">Logout</base-button>
           </li>
         </ul>
       </nav>

@@ -21,7 +21,7 @@ export default{
   padding: 5rem;
   margin: 2rem auto;
   max-width: 40rem;
-  max-height: 80rem
+  /* max-height: 80rem */
 }
 
 

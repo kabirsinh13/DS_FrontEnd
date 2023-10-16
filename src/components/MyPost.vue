@@ -2,7 +2,7 @@
 
 
 <div  class="d-flex flex-wrap justify-space-around mb-6 ">
-    <post-card class="mt-6" v-for="post in posts" :key="post._id" :title="post.title" :description="post.description" :image="post.file"></post-card>
+    <post-card class="mt-6" v-for="post in posts" :key="post._id" :title="post.title" :description="post.description" :image="post.file" :id="post._id"></post-card>
 
 </div>
 

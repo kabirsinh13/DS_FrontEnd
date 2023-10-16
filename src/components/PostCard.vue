@@ -4,11 +4,26 @@
       max-width="400"
     >
       <v-img
-        class="align-end text-white"
+        class="align-end text-white bg-grey-lighten-2"
         height="200"
-        :src="imageSource"
+        :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+        :src="imgsrc"
         cover
+       
       >
+      <template v-slot:placeholder>
+          <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+          >
+            <v-progress-circular
+              indeterminate
+              color="grey-lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      
         <v-card-title>{{ title }}</v-card-title>
       </v-img>
   
@@ -27,7 +42,7 @@
           Share
         </v-btn>
   
-        <v-btn color="orange">
+        <v-btn color="orange" @click="explorePost">
           Explore
         </v-btn>
       </v-card-actions>
@@ -37,13 +52,19 @@
 <script>
 
 export default{
-  props:['title','description','image'],
-  computed:{
-    imageSource(){
-      console.log(this.image[0])
-      const imageData = this.image[0].buffer.toString('base64')
-      return `data:image/jpeg;base64,${imageData}`
-      // return ""
+  props:['title','description','image','id'],
+  data(){
+     return {
+      imgsrc:null
+     }
+  },
+  created(){
+    const imageData = this.image[0].buffer.toString('base64')
+    this.imgsrc = `data:image/jpeg;base64,${imageData}`
+  },
+  methods:{
+    explorePost(){
+      this.$router.push('/explorepost/'+ this.id)
     }
   }
 

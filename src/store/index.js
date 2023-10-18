@@ -13,6 +13,13 @@ const store = createStore({
         },
         getUserId(state){
             return state.auth.userId;
+        },
+        getUserName(state){
+            // console.log(state)
+            return state.auth.userName
+        },
+        islikeOrNot(state){
+            return state.isLike
         }
     }
     

@@ -6,5 +6,11 @@ export default{
     logoutUser(state){
         state.userId = null,
         state.token = null
+    },
+    addUserName(state,payload){
+        state.userName = payload.userName
+    },
+    setLike(state,payload){
+        state.isLike=payload.like
     }
 }

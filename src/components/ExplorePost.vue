@@ -23,17 +23,22 @@
         :color="buttonColor"
         @click="like"
         outlined
-      ></v-btn>
+      ></v-btn><v-text>{{ likeCount }}</v-text>
       <v-card-text>
-        <div>PostedBy: {{ user }}</div>
-        <div>Title: {{ title }}</div>
-        <div>Description: {{ Description }}</div>
+        <div>PostedBy: {{ post.postedBy.name }}</div>
+        <div>Title: {{ post.title }}</div>
+        <div>Description: {{ post.description }}</div>
       </v-card-text>
+      <form @submit.prevent="addComment">
         <v-textarea
-          prepend-inner-icon="mdiThumb"
+          append-inner-icon="mdi-comment"
           label="Type your comments here"
+          v-model="inputComments"
         ></v-textarea>
-        <user-comment></user-comment>
+        <v-btn type="submit">Submit</v-btn>
+      </form><br>
+       
+        <user-comment :comments=postComments></user-comment>
   </base-card>
 
 
@@ -57,7 +62,10 @@ export default{
        return {
         post:null,
         buttonColor:'',
-        click:false
+        click:null,
+        inputComments:'',
+        postComments:'',
+        likeCount:0
   
        }
     },
@@ -68,6 +76,7 @@ export default{
         }
     },
     async created(){
+        // console.log(this.$store.getters.getUserName)
         const result = await fetch("http://localhost:3000/postbyid",{
             method:'POST',
             headers:{
@@ -78,14 +87,87 @@ export default{
             )
 
         })
+
+
         const responseData = await result.json()
+
+        this.likeCount = responseData.likedBy.length
         this.post = responseData
-        console.log(this.post)
+        this.postComments = responseData.commentsBy
+        this.click=this.$store.getters.islikeOrNot
+        const checkLike = await fetch("http://localhost:3000/getLike",{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            userid:this.$store.getters.getUserId,
+            postid:this.post._id
+          })
+        })
+        const response = await checkLike.json()
+        if(response){
+          this.buttonColor = 'blue-lighten-2'
+          this.click=true
+        }
+        else{
+          this.buttonColor=''
+          this.click=false
+        }
     },
     methods:{
-      like(){
+      async like(){
         this.click=!this.click
         this.buttonColor =this.click ? 'blue-lighten-2': ''
+        if(this.click){
+          await fetch("http://localhost:3000/likepost",{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify(
+              {
+                userid:this.$store.getters.getUserId,
+                userName:this.$store.getters.getUserName,
+                postid:this.post._id,
+                isLike:true
+              }
+            )
+          })
+          this.$store.dispatch('likeStatus',{like:this.click})
+        }
+        else{
+          await fetch("http://localhost:3000/unlikepost",{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify(
+              {
+                userid:this.$store.getters.getUserId,
+                postid:this.post._id
+              }
+            )
+          })
+          this.$store.dispatch('likeStatus',{like:this.click})
+        }
+        
+      },
+     async addComment(){
+         const commentData = {
+          postid : this.post._id,
+          userid : this.$store.getters.getUserId,
+          contents:this.inputComments,
+          userName : this.$store.getters.getUserName
+         }
+         await fetch("http://localhost:3000/postcomment",{
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify(commentData)
+         })
+         this.$router.go()
       }
     }
 }

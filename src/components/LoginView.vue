@@ -66,6 +66,7 @@
                 })
             })
             const responseData = await response.json()
+            this.$store.dispatch('setUserName',{userName:responseData.user.name})
             this.$store.dispatch('setUser',{
               id:responseData.user._id,
               token:responseData.token

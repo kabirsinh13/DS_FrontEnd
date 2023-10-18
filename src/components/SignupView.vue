@@ -100,6 +100,8 @@
 
           // const responseData = await response.json()
 
+          this.$store.dispatch('setUserName',{userName:this.name})
+
           this.$router.replace('/login')
         }
       }

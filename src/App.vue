@@ -20,6 +20,7 @@ export default {
     'app-header':HeaderView
   },
    created(){
+    this.$store.dispatch('tryLogin')
     console.log("auth " + this.authenticated)
    }
   

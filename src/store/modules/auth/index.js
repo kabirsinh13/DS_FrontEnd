@@ -10,7 +10,7 @@ export default{
             userId:null,
             token:null,
             userName:'',
-            isLike:false
+            isLike:false,
         }
     },
     actions,

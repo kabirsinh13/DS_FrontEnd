@@ -85,24 +85,13 @@
       },
       methods:{
         async formSubmit(){
-          await fetch('http://localhost:3000/user/signup',{
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
+
+          await this.$store.dispatch('signupUser',{
               name:this.name,
               email:this.email,
               password:this.password,
               age:this.age
             })
-          })
-
-          // const responseData = await response.json()
-
-          this.$store.dispatch('setUserName',{userName:this.name})
-
-          this.$router.replace('/login')
         }
       }
     }

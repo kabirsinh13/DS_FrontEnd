@@ -37,7 +37,7 @@ export default{
   },
   methods:{
     logout(){
-      this.$store.dispatch('deleteUser')
+      this.$store.dispatch('logoutUser')
     }
   }
     

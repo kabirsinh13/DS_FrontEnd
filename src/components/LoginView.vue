@@ -54,24 +54,12 @@
     }),
     methods:{
         async formSubmit(){
-        
-            const response = await fetch('http://localhost:3000/user/login',{
-                method:'POST',
-                headers:{
-                    "Content-Type":"application/json",
-                },
-                body:JSON.stringify({
+
+            await this.$store.dispatch('loginUser',{
                     email:this.email,
                     password:this.password
-                })
             })
-            const responseData = await response.json()
-            this.$store.dispatch('setUserName',{userName:responseData.user.name})
-            this.$store.dispatch('setUser',{
-              id:responseData.user._id,
-              token:responseData.token
-            })
-
+        
             this.$router.replace('/')
 
         }

@@ -2,7 +2,7 @@
 <template>
     <header>
       <nav>
-        <h1><router-link to='/'>?</router-link></h1>
+        <h1><router-link to='/'>Home</router-link></h1>
         <ul>
           <li v-if="!isLogin">
             <router-link to="/login">Login</router-link>
@@ -37,7 +37,7 @@ export default{
   },
   methods:{
     logout(){
-      this.$store.dispatch('logoutUser')
+      this.$store.dispatch('logout')
     }
   }
     

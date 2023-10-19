@@ -1,11 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
+import {store} from './store/index.js'
+ 
 import PostView from './components/PostView.vue'
 import  LoginView from './components/LoginView.vue'
 import SignupView from './components/SignupView.vue'
 import CreatePost from './components/CreatePost.vue'
 import MyPost from './components/MyPost.vue'
 import ExplorePost from './components/ExplorePost.vue'
+import NotFound from './components/NotFound.vue'
 
 const router = new createRouter({
     "history":createWebHistory(),
@@ -13,10 +16,20 @@ const router = new createRouter({
        {path:'/',component:PostView},
        {path:'/login',component:LoginView},
        {path:'/signup',component:SignupView},
-       {path:'/upload',component:CreatePost},
-       {path:'/mypost',component:MyPost},
-       {path:'/explorepost/:id',component:ExplorePost,props:true}
+       {path:'/upload',component:CreatePost,meta:{requireAuth:true}},
+       {path:'/mypost',component:MyPost,meta:{requireAuth:true}},
+       {path:'/explorepost/:id',component:ExplorePost,props:true,meta:{requireAuth:true}},
+       {path: '/:notFound(.*)',component:NotFound}
     ]
+})
+
+router.beforeEach((to,from,next)=>{
+    if(to.meta.requireAuth && !store.getters.isAuthenticated){
+        next('/login')
+    }
+    else{
+        next()
+    }
 })
 
 

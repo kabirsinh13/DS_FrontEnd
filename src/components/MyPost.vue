@@ -25,10 +25,10 @@ export default{
     },
     async created(){
         this.userId = this.$store.getters.getUserId
-        if(this.userId === null){
-            this.$router.replace('/login');
-            alert("You must be login")
-        }
+        // if(this.userId === null){
+        //     this.$router.replace('/login');
+        //     alert("You must be login")
+        // }
         const response = await fetch("http://localhost:3000/mypost",{
             method:'POST',
             headers:{

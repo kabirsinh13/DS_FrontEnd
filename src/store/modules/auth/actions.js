@@ -23,7 +23,7 @@ export default{
             })
             const responseData = await response.json()
 
-            const expiresIn = 5000;
+            const expiresIn = 300000;
             const expirationDate = new Date().getTime() + expiresIn
 
             timer = setTimeout(()=>{

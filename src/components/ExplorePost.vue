@@ -135,6 +135,7 @@ export default{
             )
           })
           this.$store.dispatch('likeStatus',{like:this.click})
+          this.$router.go()
         }
         else{
           await fetch("http://localhost:3000/unlikepost",{
@@ -150,6 +151,7 @@ export default{
             )
           })
           this.$store.dispatch('likeStatus',{like:this.click})
+          this.$router.go()
         }
         
       },

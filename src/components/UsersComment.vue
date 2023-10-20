@@ -72,6 +72,7 @@
   
       computed: {
         items () {
+          console.log(this.comments)
           const commentsLength = this.comments.length
           const colorsLength = this.colors.length
           return Array.from({ length:commentsLength}, (v,id) => {

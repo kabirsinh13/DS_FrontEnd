@@ -1,13 +1,18 @@
 <template>
-  <app-header></app-header>
+  <div class="column">
+    <app-header></app-header>
+   
+   <nav-drawer></nav-drawer>
+  </div>
 
-  <router-view></router-view>
+  
   
   
 </template>
 
 <script>
 import HeaderView   from './components/HeaderView.vue'
+import NavDrawer    from './components/NavigationDrawer.vue'
 
 export default {
   name: 'App',
@@ -17,7 +22,8 @@ export default {
     }
   },
   components:{
-    'app-header':HeaderView
+    'app-header':HeaderView,
+    'nav-drawer':NavDrawer
   },
    created(){
     this.$store.dispatch('tryLogin')
@@ -28,12 +34,5 @@ export default {
 </script>
 
 <style scpoed>
-
-/* .post{
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
- 
-} */
 
 </style>

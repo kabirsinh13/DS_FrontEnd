@@ -1,7 +1,7 @@
 
 <template>
 <div class='card'>
-<v-sheet width="300" class="mx-auto" >
+<v-sheet width="300" class="mx-auto" style="margin-top: 1.5rem;">
     <v-form @submit.prevent="formSubmit">
         <v-text-field
         v-model="email"
@@ -72,8 +72,9 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   padding: 1rem;
-  margin: 2rem auto;
+  margin: 5rem auto;
   max-width: 40rem;
+  height: 20rem;
 }
 
 .v-btn.v-btn--density-default {

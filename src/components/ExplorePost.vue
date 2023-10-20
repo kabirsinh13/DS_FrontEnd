@@ -65,7 +65,8 @@ export default{
         click:null,
         inputComments:'',
         postComments:'',
-        likeCount:0
+        likeCount:0,
+        token:null
   
        }
     },
@@ -77,10 +78,12 @@ export default{
     },
     async created(){
         // console.log(this.$store.getters.getUserName)
+        this.token =  this.$store.getters.getToken
         const result = await fetch("http://localhost:3000/postbyid",{
             method:'POST',
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                'authorization':`Bearer ${this.token}`
             },
             body:JSON.stringify(
                 {id:this.id}
@@ -98,7 +101,8 @@ export default{
         const checkLike = await fetch("http://localhost:3000/getLike",{
           method:'POST',
           headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'authorization':`Bearer ${this.token}`
           },
           body:JSON.stringify({
             userid:this.$store.getters.getUserId,
@@ -123,7 +127,8 @@ export default{
           await fetch("http://localhost:3000/likepost",{
             method:'POST',
             headers:{
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'authorization':`Bearer ${this.token}`
             },
             body:JSON.stringify(
               {
@@ -141,7 +146,8 @@ export default{
           await fetch("http://localhost:3000/unlikepost",{
             method:'POST',
             headers:{
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'authorization':`Bearer ${this.token}`
             },
             body:JSON.stringify(
               {
@@ -165,7 +171,8 @@ export default{
          await fetch("http://localhost:3000/postcomment",{
             method:'POST',
             headers:{
-              'Content-Type':'application/json'
+              'Content-Type':'application/json',
+              'authorization':`Bearer ${this.token}`
             },
             body:JSON.stringify(commentData)
          })

@@ -20,11 +20,13 @@ export default{
     data(){
        return {
         posts:[],
-        userId:""
+        userId:"",
+        token:null
        }
     },
     async created(){
         this.userId = this.$store.getters.getUserId
+        this.token = this.$store.getters.getToken
         // if(this.userId === null){
         //     this.$router.replace('/login');
         //     alert("You must be login")
@@ -32,7 +34,8 @@ export default{
         const response = await fetch("http://localhost:3000/mypost",{
             method:'POST',
             headers:{
-                "Content-Type":'application/json'
+                "Content-Type":'application/json',
+                'authorization':`Bearer ${this.token}`
             },
             body:JSON.stringify({
                 id:this.userId

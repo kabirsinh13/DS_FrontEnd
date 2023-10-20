@@ -1,5 +1,5 @@
-<template>
-    <v-card
+<!-- <template> -->
+    <!-- <v-card
       class="mx-auto"
       max-width="400"
     >
@@ -32,9 +32,9 @@
       </v-card-subtitle>
   
       <v-card-text>
-        <!-- <div>title:{{ title }}</div> -->
+        <div>title:{{ title }}</div> -->
   
-        <div>{{ description }}</div>
+        <!-- <div>{{ description }}</div>
       </v-card-text>
   
       <v-card-actions>
@@ -46,8 +46,53 @@
           Explore
         </v-btn>
       </v-card-actions>
-    </v-card>
-  </template>
+    </v-card> -->
+  <!-- </template> --> 
+
+  <template>
+  <div>
+    <v-hover v-slot="{ isHovering, props }">
+      <v-card
+        class="mx-auto"
+        max-width="344"
+        v-bind="props"
+      >
+        <v-img
+          :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`" 
+          :src="imgsrc">
+        </v-img>
+
+        <v-card-text>
+          <h2 class="text-h6 text-primary">
+            {{ title }}
+          </h2>
+          {{description}}
+        </v-card-text>
+
+        <v-card-title>
+          <v-rating
+            :model-value="4"
+            dense
+            color="orange"
+            background-color="orange"
+            hover
+            class="me-2"
+          ></v-rating>
+          <span class="text-primary text-subtitle-2">64 Reviews</span>
+        </v-card-title>
+
+        <v-overlay
+          :model-value="isHovering"
+          contained
+          scrim="#036358"
+          class="align-center justify-center"
+        >
+          <v-btn variant="flat" @click="explorePost">See more info</v-btn>
+        </v-overlay>
+      </v-card>
+    </v-hover>
+  </div>
+</template>
 
 <script>
 

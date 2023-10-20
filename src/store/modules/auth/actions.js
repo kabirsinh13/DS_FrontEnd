@@ -3,11 +3,11 @@ export default{
     setUser(context,payload){
         context.commit('loginUser',payload)
     },
-    setUserName(context,payload){
-        context.commit('addUserName',payload)
-    },
     likeStatus(context,payload){
         context.commit('setLike',payload)
+    },
+    setUserName(context,payload){
+        context.commit('addUserName',payload)
     },
 
     async loginUser(context,payload){
@@ -60,13 +60,17 @@ export default{
 
           // const responseData = await response.json()
 
-          this.$store.dispatch('setUserName',{userName:payload.name})
+          context.dispatch('setUserName',{userName:payload.name})
 
-          this.$router.replace('/login')
+          window.location.href='/login'
     },
 
-    logout(context){
+    async logout(context){
         //remove id and token browser local storage
+        const token = context.getters.getToken
+        console.log(token)
+       
+
         localStorage.removeItem('token')
         localStorage.removeItem('id')
         localStorage.removeItem('expiresIn')
@@ -76,7 +80,13 @@ export default{
         context.commit('logoutUser')
 
         window.location.href='/'
-        
+
+        await fetch("http://localhost:3000/user/logout",{
+            method:'POST',
+            headers:{
+                'authorization':`Bearer ${token}`
+              },
+        })
     },
 
     tryLogin(context){

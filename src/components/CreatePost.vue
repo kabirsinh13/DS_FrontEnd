@@ -8,14 +8,14 @@
           :rules="titleRules"
           label="Title"
         ></v-text-field>
-          <v-textarea
+        <v-textarea
             name="input-7-1"
             variant="filled"
             label="Description"
             v-model="description"
             auto-grow
             :rules="descriptionRules"
-           ></v-textarea>
+        ></v-textarea>
 
         <v-file-input
           accept="image/*"
@@ -70,8 +70,12 @@ export default{
                 (value)=>{
                     return  !value || !value.length || value[0].size < 8000000 || 'Image size should be less than 2 MB!'
                 }
-            ]
+            ],
+            token:null
         }
+    },
+    created(){
+      this.token = this.$store.getters.getToken
     },
     methods:{
         async formSubmit(){
@@ -88,6 +92,9 @@ export default{
 
          await fetch('http://localhost:3000/createpost',{
             method:'POST',
+            headers:{
+                'authorization':`Bearer ${this.token}`
+            },
           
             body:formdata
          })

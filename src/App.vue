@@ -25,9 +25,9 @@ export default {
     'app-header':HeaderView,
     'nav-drawer':NavDrawer
   },
-   created(){
-    this.$store.dispatch('tryLogin')
-    console.log("auth " + this.authenticated)
+   async created(){
+    await this.$store.dispatch('tryLogin')
+    console.log("auth " + this.$store.getters.isAuthenticated)
    }
   
 }

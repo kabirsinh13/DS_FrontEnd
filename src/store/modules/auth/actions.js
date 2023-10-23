@@ -1,8 +1,5 @@
 let timer;
 export default{
-    setUser(context,payload){
-        context.commit('loginUser',payload)
-    },
     likeStatus(context,payload){
         context.commit('setLike',payload)
     },
@@ -68,9 +65,7 @@ export default{
     async logout(context){
         //remove id and token browser local storage
         const token = context.getters.getToken
-        console.log(token)
        
-
         localStorage.removeItem('token')
         localStorage.removeItem('id')
         localStorage.removeItem('expiresIn')
@@ -111,5 +106,8 @@ export default{
                 token
             })
         }
+    },
+    setUser(context,payload){
+        context.commit('loginUser',payload)
     },
 }

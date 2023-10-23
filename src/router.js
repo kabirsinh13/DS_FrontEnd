@@ -33,4 +33,4 @@ router.beforeEach((to,from,next)=>{
 })
 
 
-export{router}
+export {router}

@@ -30,11 +30,36 @@
               prepend-icon="mdi-home-city"
               title="Home"
               value="home"
+              @click="toHome"
             ></v-list-item>
             <v-list-item v-if="isAuth"
               prepend-icon="mdi-account"
               title="My Account"
               value="account"
+            ></v-list-item>
+            
+            <v-list-item v-if="isAuth"
+              prepend-icon="mdi-file-upload"
+              title="Create Post"
+              value="post"
+              @click="toCreatepost"
+            ></v-list-item>
+            <v-list-item v-if="isAuth"
+              prepend-icon="mdi-image"
+              title="My Post"
+              value="mypost"
+              @click="toMypost"
+            ></v-list-item>
+            <v-list-item v-if="isAuth"
+              prepend-icon="mdi-logout"
+              title="Logout"
+              value="logout"
+            ></v-list-item>
+            <v-list-item v-if="!isAuth"
+              prepend-icon="mdi-login"
+              title="Login"
+              value="login"
+              @click="toLogin"
             ></v-list-item>
           </v-list>
         </v-navigation-drawer>
@@ -49,17 +74,47 @@
   <script>
     export default {
       created(){
-          this.userName = this.$store.getters.getUserName
-          this.isAuth = this.$store.getters.isAuthenticated
+          
+      },
+      computed:{
+           userName(){ 
+               return this.$store.getters.getUserName
+           },
+           isAuth(){
+            return this.$store.getters.isAuthenticated
+           }
       },
       data() {
         return {
           drawer: true,
           rail: true,
-          userName:'',
-          isAuth:false
         }
       },
+      methods:{
+        toHome(){
+          if(!this.rail){
+            this.$router.replace('/')
+          }
+        },
+        toLogin(){
+          if(!this.rail)
+          this.$router.replace('/login')
+        },
+        toCreatepost(){
+          if(!this.rail)
+          this.$router.replace('/upload')
+        },
+        toMypost(){
+          if(!this.rail){
+            this.$router.replace('/mypost')
+          }
+        },
+        toLogout(){
+          if(!this.rail){
+            this.$store.dispatch('logout')
+          }
+        }
+      }
     }
   </script>
   

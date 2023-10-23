@@ -58,7 +58,6 @@
         v-bind="props"
       >
         <v-img
-          :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`" 
           :src="imgsrc">
         </v-img>
 

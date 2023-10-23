@@ -2,7 +2,7 @@
 <template>
 <div class='card'>
 <v-sheet width="300" class="mx-auto" style="margin-top: 1.5rem;">
-    <v-form @submit.prevent="formSubmit">
+    <v-form @submit.prevent="formSubmit" v-model="form">
         <v-text-field
         v-model="email"
         :rules="emailRules"
@@ -14,7 +14,7 @@
         label="Password"
         type="password"
       ></v-text-field>
-      <v-btn type="submit" block class="mt-2">Login</v-btn>
+      <v-btn type="submit" block class="mt-2" :disabled="!form">Login</v-btn>
     </v-form>
   </v-sheet><br>
 
@@ -28,6 +28,7 @@
 <script>
   export default {
     data: () => ({
+      form:false,
       email: '',
       emailRules: [
         value => {

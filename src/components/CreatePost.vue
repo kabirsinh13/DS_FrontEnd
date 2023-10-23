@@ -2,7 +2,7 @@
 
   <v-card class="mx-auto mt-10" style="max-width: 500px;">
     <v-toolbar color="deep-purple accent-4"> <v-toolbar-title>Create Post</v-toolbar-title></v-toolbar>
-    <v-form @submit.prevent="formSubmit" class="pa-4 pt-6">
+    <v-form @submit.prevent="formSubmit" class="pa-4 pt-6" v-model="form">
         <v-text-field 
           v-model="title"
           :rules="titleRules"
@@ -26,7 +26,7 @@
         ></v-file-input>
         <v-btn
         type="submit"
-        :disabled="loading || !title || !image.length || !description"
+        :disabled="!form"
         :loading="loading"
         block
         class="text-none mb-4"
@@ -47,6 +47,7 @@
 export default{
     data(){
         return {
+            form:false,
             loading:false,
             
             title:"",

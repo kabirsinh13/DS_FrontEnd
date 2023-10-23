@@ -1,9 +1,8 @@
 <template>
     <base-card>
     <v-sheet width="300" class="mx-auto" >
-        <v-form @submit.prevent="formSubmit">
+        <v-form @submit.prevent="formSubmit" v-model="form">
             <v-text-field
-            v-model="name"
             :rules="nameRules"
             label="Name"
           ></v-text-field>
@@ -24,7 +23,7 @@
             label="Age"
             type="number"
           ></v-text-field>
-          <v-btn type="submit" block class="mt-2" bg>SignUp</v-btn>
+          <v-btn type="submit" block class="mt-2" bg :disabled="!form">SignUp</v-btn>
         
         </v-form>
       </v-sheet><br>
@@ -43,14 +42,18 @@
     export default{
       data(){
         return {
-          name:'',
+          form:false,
+          name:null,
           nameRules:[
             (value)=>{
-              if(value) return true
+              if(value) {
+                this.name = value
+                return true
+              }
               return "Please enter your name"
             }
           ],
-          email: '',
+          email: null,
           emailRules: [
             value => {
               if (value && /^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) 
@@ -59,7 +62,7 @@
               return 'Please enter a valid email.'
             },
           ],
-          password: '',
+          password: null,
           passwordRules:[
              value => {
                if (value ){

@@ -9,6 +9,8 @@ import CreatePost from './components/CreatePost.vue'
 import MyPost from './components/MyPost.vue'
 import ExplorePost from './components/ExplorePost.vue'
 import NotFound from './components/NotFound.vue'
+import UserAccount from './components/ShowUserAccount.vue'
+import ShowLikedPost from './components/ShowLikedPost.vue'
 
 const router = new createRouter({
     "history":createWebHistory(),
@@ -19,6 +21,8 @@ const router = new createRouter({
        {path:'/upload',component:CreatePost,meta:{requireAuth:true}},
        {path:'/mypost',component:MyPost,meta:{requireAuth:true}},
        {path:'/explorepost/:id',component:ExplorePost,props:true,meta:{requireAuth:true}},
+       {path:'/myaccount',component:UserAccount,meta:{requireAuth:true}},
+       {path:'/likedpost',component:ShowLikedPost,meta:{requireAuth:true}},
        {path: '/:notFound(.*)',component:NotFound}
     ]
 })

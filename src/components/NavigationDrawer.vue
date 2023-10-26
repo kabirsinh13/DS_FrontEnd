@@ -36,6 +36,7 @@
               prepend-icon="mdi-account"
               title="My Account"
               value="account"
+              @click="showAccount"
             ></v-list-item>
             
             <v-list-item v-if="isAuth"
@@ -54,6 +55,7 @@
               prepend-icon="mdi-logout"
               title="Logout"
               value="logout"
+              @click="toLogout"
             ></v-list-item>
             <v-list-item v-if="!isAuth"
               prepend-icon="mdi-login"
@@ -113,6 +115,10 @@
           if(!this.rail){
             this.$store.dispatch('logout')
           }
+        },
+        showAccount(){
+          if(!this.rail){
+          this.$router.push('/myaccount')}
         }
       }
     }

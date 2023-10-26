@@ -1,10 +1,12 @@
 
 import { createStore } from "vuex"
 import authModules from './modules/auth/index.js'
+import userModules from "./modules/user/index.js";
 
 const store = createStore({
     modules:{
-        auth:authModules
+        auth:authModules,
+        user:userModules
     },
 
     getters:{
@@ -16,7 +18,7 @@ const store = createStore({
         },
         getUserName(state){
             // console.log(state)
-            return state.auth.userName
+            return state.user.userName
         },
         islikeOrNot(state){
             return state.isLike

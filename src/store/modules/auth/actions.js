@@ -20,7 +20,7 @@ export default{
             })
             const responseData = await response.json()
 
-            const expiresIn = 300000;
+            const expiresIn = 3600000;
             const expirationDate = new Date().getTime() + expiresIn
 
             timer = setTimeout(()=>{
@@ -32,13 +32,22 @@ export default{
             localStorage.setItem('token',responseData.token)
             localStorage.setItem('id',responseData.user._id)
             localStorage.setItem('expiresIn',expirationDate)
-
-
-            context.dispatch('setUserName',{userName:responseData.user.name})
+            localStorage.setItem('userName',responseData.user.name)
+            localStorage.setItem('email',responseData.user.email)
+            localStorage.setItem('age',responseData.user.age)
+            localStorage.setItem('postCount',responseData.user.postCount)
+            console.log(responseData.user.postCount)
             context.dispatch('setUser',{
               id:responseData.user._id,
-              token:responseData.token
+              token:responseData.token,
             })
+
+            context.commit("user/saveUserData",{
+                postCount:responseData.user.postCount,
+                userName:responseData.user.name,
+                userEmail:responseData.user.email,
+                userAge:responseData.user.age
+            },{root:true})
     },
 
     async signupUser(context,payload){
@@ -57,7 +66,6 @@ export default{
 
           // const responseData = await response.json()
 
-          context.dispatch('setUserName',{userName:payload.name})
 
           window.location.href='/login'
     },
@@ -69,6 +77,10 @@ export default{
         localStorage.removeItem('token')
         localStorage.removeItem('id')
         localStorage.removeItem('expiresIn')
+        localStorage.removeItem('userName')
+        localStorage.removeItem('email'),
+        localStorage.removeItem('age')
+        localStorage.removeItem('postCount')
 
         clearTimeout(timer)
         
@@ -88,8 +100,12 @@ export default{
         const token = localStorage.getItem('token')
         const id =localStorage.getItem('id')
         const expiresIn = localStorage.getItem('expiresIn')
+        const userName = localStorage.getItem('userName')
+        const userEmail = localStorage.getItem('email')
+        const userAge = localStorage.getItem('age')
+        const postCount = localStorage.getItem('postCount')
         const tokenExpiresIn = +expiresIn - new Date().getTime();
-
+        console.log(postCount)
         if(tokenExpiresIn < 0){
             return 
         }
@@ -105,7 +121,16 @@ export default{
                 id,
                 token
             })
+            context.commit("user/saveUserData",
+            {postCount,
+            userName,
+            userEmail,
+            userAge
+            },
+            {root:true})
+
         }
+        
     },
     setUser(context,payload){
         context.commit('loginUser',payload)

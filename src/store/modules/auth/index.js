@@ -9,8 +9,6 @@ export default{
         return {
             userId:null,
             token:null,
-            userName:'',
-            isLike:false,
         }
     },
     actions,

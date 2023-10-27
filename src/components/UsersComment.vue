@@ -2,7 +2,7 @@
     <v-card
       class="mx-auto"
       max-width="640"
-      max-height="200"
+      max-height="300"
     >
       <v-card-item class="bg-orange-darken-4">
         <v-card-title>
@@ -24,7 +24,7 @@
   
       <v-virtual-scroll
         :items="items"
-        height="300"
+        height="200"
         item-height="50"
       >
         <template v-slot:default="{ item }">

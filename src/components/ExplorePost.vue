@@ -16,18 +16,23 @@
           </v-row>
         </template>
     </v-img>
-      <v-btn
+    <div class="container">
+      <div class="ele1"><v-btn
         class="ma-2"
         variant="text"
         icon="mdi-thumb-up"
         :color="buttonColor"
         @click="like"
         outlined
-      ></v-btn><v-text>{{ likeCount }}</v-text>
+      ></v-btn></div>
+      <div class="elem2"><v-text>{{ likeCount }}</v-text></div>
+      <div class="elem3"><p><b>Views:</b> {{ viewCount }}</p></div>
+    </div>
+      
       <v-card-text>
-        <div>PostedBy: {{ post.postedBy.name }}</div>
-        <div>Title: {{ post.title }}</div>
-        <div>Description: {{ post.description }}</div>
+        <div><b>PostedBy:</b> {{ post.postedBy.name }}</div>
+        <div><b>Title:</b> {{ post.title }}</div>
+        <div><b>Description:</b> {{ post.description }}</div>
       </v-card-text>
       <form @submit.prevent="addComment">
         <v-textarea
@@ -66,7 +71,8 @@ export default{
         inputComments:'',
         postComments:'',
         likeCount:0,
-        token:null
+        token:null,
+        viewCount:0
   
        }
     },
@@ -95,6 +101,7 @@ export default{
         const responseData = await result.json()
 
         this.likeCount = responseData.likedBy.length
+        this.viewCount = responseData.viewedBy.length
         this.post = responseData
         this.postComments = responseData.commentsBy
         this.click=this.$store.getters.islikeOrNot
@@ -117,6 +124,22 @@ export default{
         else{
           this.buttonColor=''
           this.click=false
+        }
+
+        const checkView = await fetch("http://localhost:3000/getView",{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'authorization':`Bearer ${this.token}`
+          },
+          body:JSON.stringify({
+            userid:this.$store.getters.getUserId,
+            postid:this.post._id
+          })
+        })
+        const viewResult = await checkView.json()
+        if(!viewResult){
+          this.viewCount++
         }
     },
     methods:{
@@ -189,7 +212,16 @@ export default{
 
 .container{
 
-  display:flex
+  display:flex;
+  align-items: baseline;
+
+  
 }
+
+.elem3{
+  flex-grow: 3;
+  text-align: right;
+}
+
 
 </style>

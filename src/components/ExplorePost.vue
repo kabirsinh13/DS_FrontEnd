@@ -43,7 +43,7 @@
         <v-btn type="submit">Submit</v-btn>
       </form><br>
        
-        <user-comment :comments=postComments></user-comment>
+        <user-comment v-if="this.postComments.length!=0" :comments=postComments></user-comment>
   </base-card>
 
 

@@ -16,8 +16,8 @@ const router = new createRouter({
     "history":createWebHistory(),
     "routes":[
        {path:'/',component:PostView},
-       {path:'/login',component:LoginView},
-       {path:'/signup',component:SignupView},
+       {path:'/login',component:LoginView,meta:{requireUnAuth:true}},
+       {path:'/signup',component:SignupView,meta:{requireUnAuth:true}},
        {path:'/upload',component:CreatePost,meta:{requireAuth:true}},
        {path:'/mypost',component:MyPost,meta:{requireAuth:true}},
        {path:'/explorepost/:id',component:ExplorePost,props:true,meta:{requireAuth:true}},
@@ -30,6 +30,9 @@ const router = new createRouter({
 router.beforeEach((to,from,next)=>{
     if(to.meta.requireAuth && !store.getters.isAuthenticated){
         next('/login')
+    }
+    else if(to.meta.requireUnAuth && store.getters.isAuthenticated){
+        next('/')
     }
     else{
         next()

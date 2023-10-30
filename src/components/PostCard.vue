@@ -58,7 +58,7 @@
         v-bind="props"
       >
         <v-img
-          :src="imgsrc">
+          :src="imgsrc" max-height="12rem">
         </v-img>
 
         <v-card-text>

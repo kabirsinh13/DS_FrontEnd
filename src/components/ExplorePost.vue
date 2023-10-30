@@ -1,21 +1,36 @@
 <template>
-   <v-card style="padding: 5rem;" v-if="post!==null">
+   <v-card style="padding: 5rem;" v-if="post!==null" >
+  
    <v-img 
       cover 
       :src="img" style="max-width: 100%; max-height: 50rem;">
-      <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0"
-            align="center"
-            justify="center"
-          >
-            <v-progress-circular
-              indeterminate
-              color="grey-lighten-5"
-            ></v-progress-circular>
-          </v-row>
+      <v-toolbar color="rgba(0, 0, 0, 0)">
+        <template v-slot:append>
+          <v-tooltip text="Delete Post" location="top">
+              <template v-slot:activator="{props}" >
+                <v-text v-bind="props">
+                   <v-btn v-if="post.postedBy._id === currentLoggedinUserId"  icon="mdi-delete" color="indigo" @click="dialog=true">
+                  </v-btn>
+                  <v-dialog
+                     v-model="dialog"
+                    width="auto"
+                   >
+                    <v-card>
+                      <v-card-text>
+                        Are you sure to delete this Post
+                      </v-card-text>
+                      <v-card-actions>
+                         <v-btn color="primary" block @click="deletePost">Yes</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                 </v-dialog>
+                </v-text>
+              </template>
+          </v-tooltip>
         </template>
-    </v-img>
+        
+      </v-toolbar>
+  </v-img>
     <div class="container">
       <div class="ele1"><v-btn
         class="ma-2"
@@ -42,8 +57,9 @@
      <v-rating
       v-if="!isRated"
        v-model="rating"
-       color="indigo"
+       color="orange"
        active-color="yellow-accent-4"
+       background-color='orange'
        hover
        size="18"
      ></v-rating>
@@ -52,7 +68,8 @@
         <v-text v-bind="props">
           <v-rating
             v-model="calculateAverageRating"
-            color="indigo"
+            color="orange"
+            background-color="orange"
             readonly="isRated"
             active-color="yellow-accent-4"
             hover
@@ -83,6 +100,7 @@
        
         <user-comment v-if="this.postComments.length!=0" :comments=postComments></user-comment>
   </v-card>
+ 
 
 
 
@@ -112,7 +130,9 @@ export default{
         token:null,
         viewCount:0,
         rating:0,
-        isRated:false
+        isRated:false,
+        currentLoggedinUserId:this.$store.getters.getUserId,
+        dialog:false
   
        }
     },
@@ -153,6 +173,8 @@ export default{
         this.likeCount = responseData.likedBy.length
         this.viewCount = responseData.viewedBy.length
         this.post = responseData
+        console.log(this.post.postedBy._id)
+        console.log(this.$store.getters.getUserId)
         this.rating = this.Avgrating
         this.postComments = responseData.commentsBy
         this.click=this.$store.getters.islikeOrNot
@@ -283,7 +305,31 @@ export default{
         this.post = await response.json()
         console.log(this.post)
         this.$router.go()
-      }
+      },
+      async deletePost(){
+        this.dialog = false
+        const response =await fetch("http://localhost:3000/deletepost",{
+          method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              'authorization':`Bearer ${this.token}`
+            },
+            body:JSON.stringify(
+              {
+                postid:this.post._id
+              }
+            )
+        })
+        if(!response.ok){
+          console.log("not deleted")
+          this.$router.go()
+        }
+        else{
+          console.log("deleted")
+          this.$router.go(-1)
+        }
+
+      },
     }
 }
 

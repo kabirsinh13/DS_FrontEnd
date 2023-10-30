@@ -58,7 +58,7 @@
         v-bind="props"
       >
         <v-img
-          :src="imgsrc">
+          :src="imgsrc" max-height="12rem">
         </v-img>
 
         <v-card-text>
@@ -70,14 +70,14 @@
 
         <v-card-title>
           <v-rating
-            :model-value="4"
-            dense
+            :model-value="calculateAverageRating"
+             dense
             color="orange"
             background-color="orange"
             hover
             class="me-2"
           ></v-rating>
-          <span class="text-primary text-subtitle-2">64 Reviews</span>
+          <span class="text-primary text-subtitle-2">{{ totalRating }} Reviews</span>
         </v-card-title>
 
         <v-overlay
@@ -96,11 +96,22 @@
 <script>
 
 export default{
-  props:['title','description','image','id'],
+  props:['title','description','image','id','allrate'],
   data(){
      return {
-      imgsrc:null
+      imgsrc:null,
+      totalRating:this.allrate.length
      }
+  },
+  computed:{
+    calculateAverageRating(){
+      if(this.allrate.length===0)
+      return 0
+      const totalRating =  this.allrate.reduce((acc,ele)=>{
+              return acc+ele.rate
+      },0)
+      return Math.round(totalRating/this.allrate.length)
+    },
   },
   created(){
     const imageData = this.image[0].buffer.toString('base64')

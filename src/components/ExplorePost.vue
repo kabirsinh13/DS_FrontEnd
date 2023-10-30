@@ -1,21 +1,36 @@
 <template>
-   <base-card v-if="post!==null">
+   <v-card style="padding: 5rem;" v-if="post!==null" >
+  
    <v-img 
       cover 
-      :src="img">
-      <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0"
-            align="center"
-            justify="center"
-          >
-            <v-progress-circular
-              indeterminate
-              color="grey-lighten-5"
-            ></v-progress-circular>
-          </v-row>
+      :src="img" style="max-width: 100%; max-height: 50rem;">
+      <v-toolbar color="rgba(0, 0, 0, 0)">
+        <template v-slot:append>
+          <v-tooltip text="Delete Post" location="top">
+              <template v-slot:activator="{props}" >
+                <v-text v-bind="props">
+                   <v-btn v-if="post.postedBy._id === currentLoggedinUserId"  icon="mdi-delete" color="indigo" @click="dialog=true">
+                  </v-btn>
+                  <v-dialog
+                     v-model="dialog"
+                    width="auto"
+                   >
+                    <v-card>
+                      <v-card-text>
+                        Are you sure to delete this Post
+                      </v-card-text>
+                      <v-card-actions>
+                         <v-btn color="primary" block @click="deletePost">Yes</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                 </v-dialog>
+                </v-text>
+              </template>
+          </v-tooltip>
         </template>
-    </v-img>
+        
+      </v-toolbar>
+  </v-img>
     <div class="container">
       <div class="ele1"><v-btn
         class="ma-2"
@@ -28,7 +43,47 @@
       <div class="elem2"><v-text>{{ likeCount }}</v-text></div>
       <div class="elem3"><p><b>Views:</b> {{ viewCount }}</p></div>
     </div>
-      
+    <v-divider></v-divider>
+
+     <v-card-actions class="pa-4">
+           <v-text v-if="!isRated">Rate this Post</v-text>
+
+     <v-spacer></v-spacer>
+
+       <span class="text-indigo-lighten-2 text-caption me-2">
+        ({{ calculateAverageRating }})
+     </span>
+
+     <v-rating
+      v-if="!isRated"
+       v-model="rating"
+       color="orange"
+       active-color="yellow-accent-4"
+       background-color='orange'
+       hover
+       size="18"
+     ></v-rating>
+     <v-tooltip text="You already rated this post" location="bottom" v-else>
+      <template v-slot:activator="{ props }">
+        <v-text v-bind="props">
+          <v-rating
+            v-model="calculateAverageRating"
+            color="orange"
+            background-color="orange"
+            readonly="isRated"
+            active-color="yellow-accent-4"
+            hover
+            size="18"
+           ></v-rating>
+        </v-text>
+       
+      </template>
+     
+     </v-tooltip>
+
+     <v-btn v-if="!isRated" @click="rateSubmit" style="margin-left: 1.5rem;" variant="outlined">Submit</v-btn>
+
+    </v-card-actions>
       <v-card-text>
         <div><b>PostedBy:</b> {{ post.postedBy.name }}</div>
         <div><b>Title:</b> {{ post.title }}</div>
@@ -44,7 +99,8 @@
       </form><br>
        
         <user-comment v-if="this.postComments.length!=0" :comments=postComments></user-comment>
-  </base-card>
+  </v-card>
+ 
 
 
 
@@ -72,7 +128,11 @@ export default{
         postComments:'',
         likeCount:0,
         token:null,
-        viewCount:0
+        viewCount:0,
+        rating:0,
+        isRated:false,
+        currentLoggedinUserId:this.$store.getters.getUserId,
+        dialog:false
   
        }
     },
@@ -80,10 +140,20 @@ export default{
     img(){
         const imageData = this.post.file[0].buffer.toString('base64')
         return `data:image/jpeg;base64,${imageData}`
-        }
+        },
+    calculateAverageRating(){
+      if(this.post.ratedBy.length===0)
+      return 0
+      const totalRating =  this.post.ratedBy.reduce((acc,ele)=>{
+              return acc+ele.rate
+      },0)
+      return Math.round(totalRating/this.post.ratedBy.length)
     },
+    },
+
     async created(){
         // console.log(this.$store.getters.getUserName)
+
         this.token =  this.$store.getters.getToken
         const result = await fetch("http://localhost:3000/postbyid",{
             method:'POST',
@@ -103,6 +173,9 @@ export default{
         this.likeCount = responseData.likedBy.length
         this.viewCount = responseData.viewedBy.length
         this.post = responseData
+        console.log(this.post.postedBy._id)
+        console.log(this.$store.getters.getUserId)
+        this.rating = this.Avgrating
         this.postComments = responseData.commentsBy
         this.click=this.$store.getters.islikeOrNot
         const checkLike = await fetch("http://localhost:3000/getLike",{
@@ -141,6 +214,19 @@ export default{
         if(!viewResult){
           this.viewCount++
         }
+
+        const israteResponse = await fetch("http://localhost:3000/israted",{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'authorization':`Bearer ${this.token}`
+          },
+          body:JSON.stringify({
+            postid:this.post._id
+          })
+        })
+
+        this.isRated = await israteResponse.json()
     },
     methods:{
       async like(){
@@ -200,7 +286,50 @@ export default{
             body:JSON.stringify(commentData)
          })
          this.$router.go()
-      }
+      },
+
+      async rateSubmit(){
+        const response =await fetch("http://localhost:3000/ratepost",{
+          method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              'authorization':`Bearer ${this.token}`
+            },
+            body:JSON.stringify(
+              {
+                rate:this.rating,
+                postid:this.post._id
+              }
+            )
+        })
+        this.post = await response.json()
+        console.log(this.post)
+        this.$router.go()
+      },
+      async deletePost(){
+        this.dialog = false
+        const response =await fetch("http://localhost:3000/deletepost",{
+          method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              'authorization':`Bearer ${this.token}`
+            },
+            body:JSON.stringify(
+              {
+                postid:this.post._id
+              }
+            )
+        })
+        if(!response.ok){
+          console.log("not deleted")
+          this.$router.go()
+        }
+        else{
+          console.log("deleted")
+          this.$router.go(-1)
+        }
+
+      },
     }
 }
 

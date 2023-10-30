@@ -1,7 +1,7 @@
 <template>
     <v-card
       class="mx-auto"
-      max-width="640"
+      max-width="100%"
       max-height="300"
     >
       <v-card-item class="bg-orange-darken-4">

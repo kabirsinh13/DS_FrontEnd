@@ -15,6 +15,7 @@ import * as directives from 'vuetify/directives'
 import BaseCard from './ui/BaseCard.vue'
 import BaseButton from './ui/BaseButton.vue'
 
+
 const vuetify = createVuetify({
     components,
     directives,

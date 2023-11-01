@@ -1,7 +1,7 @@
 <template>
-    <button v-if="!link">
+    <v-button v-if="!link">
         <slot></slot>
-    </button>
+    </v-button>
  
     <router-link v-else :to="to" :class="mode">
         <slot></slot>
@@ -28,6 +28,11 @@
              type:String,
              required:false,
              default:'/'
+         },
+         isdisable:{
+          type:Boolean,
+          required:false,
+          default:false
          }
      }
  }
@@ -35,7 +40,7 @@
  </script>
  
  <style scoped>
- button,
+ v-button,
  a {
    text-decoration: none;
    padding: 0.75rem 1.5rem;

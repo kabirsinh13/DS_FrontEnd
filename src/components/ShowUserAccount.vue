@@ -98,20 +98,12 @@ export default{
             return this.$store.state.user.postCount
         },
         likedPostCount(){
-            return this.likedPostData.length
+            return this.$store.state.user.likeCount
         }
     },
    async created(){
-    console.log(this.$store.state.user)
-        const token = this.$store.getters.getToken
-          const response = await fetch('http://localhost:3000/user/likedpost',{
-            headers:{
-                'authorization':`Bearer ${token}`
-            }
-          })
-
-          this.likedPostData = await response.json()
-          this.$store.state.user.likedPost= this.likedPostData
+         await  this.$store.dispatch('user/getlikeCount')
+         await  this.$store.dispatch('user/getpostCount')
     },
     methods:{
         onButtonClick(){

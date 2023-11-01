@@ -76,7 +76,7 @@
             background-color="orange"
             hover
             class="me-2"
-            readonly="true"
+            readonly
           ></v-rating>
           <span class="text-primary text-subtitle-2">{{ totalRating }} Reviews</span>
         </v-card-title>

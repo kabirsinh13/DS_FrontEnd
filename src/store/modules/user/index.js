@@ -9,9 +9,9 @@ export default{
             userEmail:null,
             userAge:null,
             userName:null,
-            postCount:0,
+            likedPost:null,
             likeCount:0,
-            likedPost:[]
+            postCount:0
         }
     },
     actions,

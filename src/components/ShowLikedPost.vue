@@ -1,7 +1,7 @@
 <template>
 
 
-    <post-card class="mt-6" v-for="post in Post" :key="post.postId._id" :title="post.postId.title" :description="post.postId.description" :image="post.postId.file" :id="post.postId._id"></post-card>
+    <post-card class="mt-6" v-for="post in Post" :key="post.postId._id" :title="post.postId.title" :description="post.postId.description" :image="post.postId.file" :id="post.postId._id" :allrate="post.postId.ratedBy"></post-card>
 </template>
 
 
@@ -14,11 +14,17 @@ export default{
     },
     data(){
         return {
-            Post:[]
         }
     },
-    created(){
-        this.Post = this.$store.state.user.likedPost
+    computed:{
+        Post(){
+            return this.$store.state.user.likedPost
+        }
+    },
+    async created(){
+        if(this.Post === null){
+            await this.$store.dispatch('user/getlikeCount')
+        }
     },
 
 }

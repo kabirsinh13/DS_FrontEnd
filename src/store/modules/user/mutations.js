@@ -1,11 +1,9 @@
 export default{
 
     saveUserData(state,payload){
-        state.postCount = payload.postCount
         state.userAge = payload.userAge
         state.userEmail = payload.userEmail
         state.userName = payload.userName
-        state.likeCount = payload.likeCount
     },
 
     updateUserProfile(state,payload){
@@ -13,4 +11,12 @@ export default{
         localStorage.setItem('userName',payload.name)
 
     },
+    updatePostCount(state,payload){
+      state.postCount = payload.postCount
+      
+    },
+    updateLikeData(state,payload){
+        state.likeCount = payload.likeCount
+        state.likedPost = payload.likedPost
+    }
 }

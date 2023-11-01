@@ -35,8 +35,6 @@ export default{
             localStorage.setItem('userName',responseData.user.name)
             localStorage.setItem('email',responseData.user.email)
             localStorage.setItem('age',responseData.user.age)
-            localStorage.setItem('postCount',responseData.user.postCount)
-            localStorage.setItem('likeCount',responseData.user.likeCount)
             console.log(responseData.user.postCount)
             context.dispatch('setUser',{
               id:responseData.user._id,
@@ -48,7 +46,6 @@ export default{
                 userName:responseData.user.name,
                 userEmail:responseData.user.email,
                 userAge:responseData.user.age,
-                likeCount:responseData.user.likeCount
             },{root:true})
     },
 
@@ -82,7 +79,6 @@ export default{
         localStorage.removeItem('userName')
         localStorage.removeItem('email'),
         localStorage.removeItem('age')
-        localStorage.removeItem('postCount')
 
         clearTimeout(timer)
         
@@ -105,10 +101,7 @@ export default{
         const userName = localStorage.getItem('userName')
         const userEmail = localStorage.getItem('email')
         const userAge = localStorage.getItem('age')
-        const postCount = localStorage.getItem('postCount')
-        const likeCount = localStorage.getItem('likeCount')
         const tokenExpiresIn = +expiresIn - new Date().getTime();
-        console.log(postCount)
         if(tokenExpiresIn < 0){
             return 
         }
@@ -125,11 +118,10 @@ export default{
                 token
             })
             context.commit("user/saveUserData",
-            {postCount,
+            {
             userName,
             userEmail,
             userAge,
-            likeCount
             },
             {root:true})
 

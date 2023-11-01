@@ -173,8 +173,6 @@ export default{
         this.likeCount = responseData.likedBy.length
         this.viewCount = responseData.viewedBy.length
         this.post = responseData
-        console.log(this.post.postedBy._id)
-        console.log(this.$store.getters.getUserId)
         this.rating = this.Avgrating
         this.postComments = responseData.commentsBy
         this.click=this.$store.getters.islikeOrNot
@@ -324,6 +322,7 @@ export default{
         }
         else{
           console.log("deleted")
+          this.$store.state.user.postCount--;
           this.$router.go(-1)
         }
 

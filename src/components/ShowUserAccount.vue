@@ -26,7 +26,7 @@
      <div>Email: {{ userEmail }}</div>
      <div>Age: {{ userAge }}</div>
      <div>Uploaded Post: <router-link style="text-decoration: none;" to='/mypost'>{{ postCount }}</router-link></div>
-     <div>Post Liked: <router-link style="text-decoration:none;" :likedPostData="likedPostData" to="/likedpost">{{ likedPostCount }}</router-link></div>
+     <div>Post Liked: <router-link style="text-decoration:none;" to="/likedpost">{{ likedPostCount }}</router-link></div>
      </template>
      <template v-else>
         <v-form v-model="form"> 

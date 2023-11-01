@@ -10,7 +10,7 @@ export default{
             userAge:null,
             userName:null,
             postCount:0,
-            likePostCount:0,
+            likeCount:0,
             likedPost:[]
         }
     },

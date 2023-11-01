@@ -248,7 +248,6 @@ export default{
               }
             )
           })
-          this.$store.dispatch('likeStatus',{like:this.click})
           this.$router.go()
         }
         else{
@@ -265,7 +264,6 @@ export default{
               }
             )
           })
-          this.$store.dispatch('likeStatus',{like:this.click})
           this.$router.go()
         }
         

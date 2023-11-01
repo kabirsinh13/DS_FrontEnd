@@ -69,7 +69,7 @@ export default{
             image:[],
             imageRules:[
                 (value)=>{
-                    return  !value || !value.length || value[0].size < 8000000 || 'Image size should be less than 2 MB!'
+                    return  !value || !value.length || value[0].size < 8000000 || 'Image size should be less than 8 MB!'
                 }
             ],
             token:null

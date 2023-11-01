@@ -106,6 +106,7 @@ export default{
 
          //when user created post then this will increment local postcount state
          this.$store.state.user.postCount++;
+         this.$router.replace('/');
          
         //  this.$router.go()  it will refresh the current route 
         }

@@ -5,5 +5,11 @@ export default{
         state.userAge = payload.userAge
         state.userEmail = payload.userEmail
         state.userName = payload.userName
+    },
+
+    updateUserProfile(state,payload){
+        localStorage.setItem('age',payload.age)
+        localStorage.setItem('userName',payload.name)
+
     }
 }

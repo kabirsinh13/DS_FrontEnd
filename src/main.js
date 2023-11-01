@@ -14,6 +14,7 @@ import * as directives from 'vuetify/directives'
 
 import BaseCard from './ui/BaseCard.vue'
 import BaseButton from './ui/BaseButton.vue'
+import BaseToolTip from './ui/BaseTooltip.vue'
 
 
 const vuetify = createVuetify({
@@ -35,4 +36,5 @@ app.use(vuetify)
 app.use(store)
 app.component('base-card',BaseCard)
 app.component('base-button',BaseButton)
+app.component('base-tooltip',BaseToolTip)
 app.mount('#app')

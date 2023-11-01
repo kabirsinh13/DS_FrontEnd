@@ -79,6 +79,7 @@ export default{
         localStorage.removeItem('userName')
         localStorage.removeItem('email'),
         localStorage.removeItem('age')
+        // localStorage.removeItem('profilePic')
 
         clearTimeout(timer)
         

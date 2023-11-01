@@ -11,7 +11,7 @@
    </div>
    <div class="d-flex justify-center mb-2">
     <v-avatar size="60">
-        <v-img src="https://ui-avatars.com/api/?name=&&rounded=true">
+        <v-img :src="profilePic" cover>
             <div v-if="isediting" class="d-flex align-center justify-center" style="height: 100%;" >       
              <v-file-input ref="uploader" class="d-none" type="file" accept="image/*" @change="onFileChanged"></v-file-input>
              <base-tooltip text="change your pic" location="top"><v-btn @click="onButtonClick" variant="text"><v-icon>{{ "mdi-camera" }}</v-icon></v-btn></base-tooltip>
@@ -29,7 +29,7 @@
      <div>Post Liked: <router-link style="text-decoration:none;" to="/likedpost">{{ likedPostCount }}</router-link></div>
      </template>
      <template v-else>
-        <v-form v-model="form"> 
+        <v-form v-model="form" @submit.prevent="saveProfile"> 
             <v-text-field
                label="name"
                v-model="editedName"
@@ -43,7 +43,7 @@
                type="number"
             ></v-text-field>
             <div class="d-flex justify-center">
-                <v-btn @click="saveProfile" color="primary" type="submit" :disabled="!form">Save</v-btn>
+                <v-btn color="primary" type="submit" :disabled="!form">Save</v-btn>
             </div>
         </v-form>
        
@@ -65,6 +65,7 @@ export default{
            likedPostData:[],
            isediting:false,
            editedName:null,
+           profilePic:"https://ui-avatars.com/api/?name=&&rounded=true",
            nameRule:[
             (value)=>{
                 if(value)
@@ -102,6 +103,7 @@ export default{
         }
     },
    async created(){
+    this.profilePic = localStorage.getItem('profilePic')
          await  this.$store.dispatch('user/getlikeCount')
          await  this.$store.dispatch('user/getpostCount')
     },
@@ -123,16 +125,15 @@ export default{
        },
        async saveProfile(){
           const token = this.$store.getters.getToken
-          this.$store.state.user.userName = this.editedName
-          this.$store.state.user.userAge = this.editedAge
-          console.log(this.$store.state.user)
-
           const userData = new FormData()
           userData.append('name',this.editedName)
           userData.append('age',this.editedAge)
+          if(this.selectedfile!==null){
           userData.append('profilePic',this.selectedfile)
+          this.selectedfile=null
+          }
 
-          await fetch("http://localhost:3000/user/updateuser",{
+         const result =  await fetch("http://localhost:3000/user/updateuser",{
             method:'POST',
             headers:{
     
@@ -142,8 +143,15 @@ export default{
             body:userData
             
           })
-          this.$store.commit('user/updateUserProfile',{name:this.editedName,age:this.editedAge})
-          console.log(this.$store.state.user)
+          const profileImage =await result.json()
+
+          if(profileImage){
+            const imageData = profileImage.buffer.toString('base64')
+            this.profilePic  = `data:image/jpeg;base64,${imageData}`
+            
+          }
+          
+          this.$store.commit('user/updateUserProfile',{name:this.editedName,age:this.editedAge,profilePic:this.profilePic})
           this.isediting = false;
 
           

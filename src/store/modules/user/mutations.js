@@ -9,6 +9,7 @@ export default{
     updateUserProfile(state,payload){
         localStorage.setItem('age',payload.age)
         localStorage.setItem('userName',payload.name)
+        localStorage.setItem('profilePic',payload.profilePic)
 
     },
     updatePostCount(state,payload){

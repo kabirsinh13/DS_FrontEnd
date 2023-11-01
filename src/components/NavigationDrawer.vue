@@ -9,7 +9,7 @@
           @click="rail = false"
         >
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/men/10.jpg"
+            :prepend-avatar="profilePic"
             :title="userName"
             nav
           >
@@ -76,7 +76,7 @@
   <script>
     export default {
       created(){
-          
+        
       },
       computed:{
            userName(){ 
@@ -84,6 +84,9 @@
            },
            isAuth(){
             return this.$store.getters.isAuthenticated
+           },
+           profilePic(){
+            return localStorage.getItem('profilePic')
            }
       },
       data() {

@@ -69,7 +69,7 @@ export default{
             image:[],
             imageRules:[
                 (value)=>{
-                    return  !value || !value.length || value[0].size < 8000000 || 'Image size should be less than 8 MB!'
+                    return  !value || !value.length || value[0].size < 800000000 || 'Image size should be less than 8 MB!'
                 }
             ],
             token:null
@@ -103,7 +103,7 @@ export default{
          this.title="",
          this.description="",
          this.image=[]
-
+         // are you sure it will use when user ver 
          //when user created post then this will increment local postcount state
          this.$store.state.user.postCount++;
          

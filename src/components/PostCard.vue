@@ -65,7 +65,8 @@
           <h2 class="text-h6 text-primary">
             {{ title }}
           </h2>
-          {{description}}
+          {{description.substring(0,120) + '...'}}
+          <!-- {{description.}} -->
         </v-card-text>
 
         <v-card-title>

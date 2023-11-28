@@ -2,12 +2,12 @@
 <template>
     <header>
       <nav>
-        <h1><router-link to='/'>Home</router-link></h1>
+        <h1><router-link to='/' class="grey--text d-flex justify-end">Desti Share</router-link></h1>
         <ul>
           <li v-if="!isLogin">
             <router-link to="/login">Login</router-link>
           </li>
-          <li v-if="isLogin">
+          <!-- <li v-if="isLogin">
             <base-button link to="/upload">CreatePost</base-button>
           </li>
           <li v-if="isLogin">
@@ -15,7 +15,7 @@
           </li>
           <li v-if="isLogin">
             <base-button  @click="logout">Logout</base-button>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </header>
@@ -49,11 +49,11 @@ export default{
 <style scoped>
   header {
   width: 100%;
-  height: 5rem;
+  height: 4rem;
   background-color: #3d008d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
 header a {
@@ -76,7 +76,7 @@ h1 {
 
 h1 a {
   color: white;
-  margin: 0;
+  margin: auto;
 }
 
 h1 a:hover,
@@ -86,10 +86,11 @@ h1 a.router-link-active {
 }
 
 header nav {
-  margin: auto;
+  /* margin: auto; */
+  padding: auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* justify-content: space-between;
+  align-items: center; */
 }
 
 header ul {
